@@ -1,7 +1,7 @@
 PIPENV          = pipenv
 VENV            = .venv
 BASEDIR         = charaPoster/
-MAIN            = ${BASEDIE}main.py
+MAIN            = main.py
 
 .PHONY: usage
 usage:
@@ -17,8 +17,11 @@ ${VENV}: Pipfile.lock
 	${PIPENV} sync --dev
 	touch ${VENV}
 
+.env: .env.sample
+	cp -n .env.sample .env
+
 .PHONY: run
-run:
+run: ${VENV} .env
 	${PIPENV} run python ${MAIN}
 
 .PHONY: lint
