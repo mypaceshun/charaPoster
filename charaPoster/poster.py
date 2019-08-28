@@ -1,8 +1,8 @@
 import time
 
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains
 
 BASE_URL = "https://akb48.chara-ani.com/"
 
@@ -64,11 +64,17 @@ class Poster:
 
         # apply
         apply_btn_el = d.find_element(By.ID, 'btnApply')
-        self._click_image_button(apply_btn_el)
-
+        d.get_screenshot_as_file('apply.png')
+        # self._click_image_button(apply_btn_el)
 
     def _click_image_button(self, btn_el):
         d = self.driver
+        try:
+            # firefoxではこれがないと動かないが、
+            # chromeではこの文でエラーを吐く
+            d.execute_script("window.scrollTo({x}, {y});".format(**btn_el.location))
+        except Exception:
+            pass
         action = ActionChains(d).move_to_element(btn_el).click(btn_el)
         action.perform()
         time.sleep(1)

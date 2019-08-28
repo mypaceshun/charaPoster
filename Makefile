@@ -26,7 +26,7 @@ run: ${VENV} .env
 
 .PHONY: lint
 lint:
-	${PIPENV} run flake8 ${BASEDIR}
+	${PIPENV} run flake8 ${BASEDIR} || :
 
 .PHONY: format
 format:
